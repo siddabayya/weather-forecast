@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Represents the response to a DarkSky forecast request.
  *
@@ -45,7 +47,9 @@ import java.util.Objects;
  *
  * @author Puls
  */
-public class ForecastResponse implements Serializable {
+
+@Document(collection = "weather_forecast")
+public class WeatherForecast implements Serializable {
 
     private Flags flags;
     private List<Alert> alerts;
@@ -212,7 +216,7 @@ public class ForecastResponse implements Serializable {
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	final ForecastResponse other = (ForecastResponse) obj;
+	final WeatherForecast other = (WeatherForecast) obj;
 	if (!Objects.equals(this.timezone, other.timezone)) {
 	    return false;
 	}

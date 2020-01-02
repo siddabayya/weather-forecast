@@ -142,8 +142,8 @@
                     <i class="material-icons" th:text="'cloud'" ></i>
                   </div>
                   <p class="card-category" >Temperature</p>
-                  <h3 class="card-title" th:text=${forecast.currently.temperature}><span th:text=${forecast.currently.temperature}> </span>
-                  <small>&#8451;</small></h3>
+                  <h3 class="card-title" ><span th:text=${forecast.currently.temperature}> </span>
+                 &deg;F </h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -160,7 +160,7 @@
                     <i class="material-icons">opacity</i>
                   </div>
                   <p class="card-category">Humidity</p>
-                  <h3 class="card-title" th:text=${forecast.currently.humidity}></h3>
+                  <h3 class="card-title" th:text="${forecast.currently.humidity} + ' %' "></h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -176,7 +176,7 @@
                     <i class="material-icons">waves</i>
                   </div>
                   <p class="card-category">Wind Speed</p>
-                  <h3 class="card-title" th:text=${forecast.currently.windSpeed}>75</h3>
+                  <h3 class="card-title" th:text="${forecast.currently.windSpeed} + ' mph'">75</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -194,13 +194,13 @@
                   <div class="ct-chart" id="temperatureChart"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">Hourly View</h4>
+                  <h4 class="card-title" id="temp-view-title">Temperature</h4>
                   <p class="card-category">
-                    <span class="text-success"></span > <span th:text=${forecast.hourly.summary}></span></p>
+                    <span class="text-success"></span > <span th:text=${forecast.hourly.summary}></span></p><p></p>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <a href="#daily" class="btn btn-danger btn-sm">Daily View</a>
+                    <a href="#daily" class="btn btn-danger btn-sm" onClick="toggleTemperatureView(this);">Daily View</a>
                   </div>
                 </div>
               </div>
@@ -208,15 +208,15 @@
             <div class="col-md-6">
               <div class="card card-chart">
                 <div class="card-header card-header-warning">
-                  <div class="ct-chart" id="websiteViewsChart"></div>
+                  <div class="ct-chart" id="humidityViewsChart"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">Email Subscriptions</h4>
-                  <p class="card-category">Last Campaign Performance</p>
+                  <h4 class="card-title">Humidity</h4>
+                  <p class="card-category"><span class="text-success"></span > <span th:text=${forecast.hourly.summary}></span></p><p></p>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                     <a href="#daily" class="btn btn-danger btn-sm" onClick="toggleHumidityView(this);">Daily View</a>
                   </div>
                 </div>
               </div>
@@ -546,16 +546,39 @@
     });
   </script>
   <script th:inline="javascript">
+	
     $(document).ready(function() {
-     
+    	
+    	var hourlyTempView = true;
+    	var hourlyHumidityView = true;
       /*<![CDATA[*/
 		 var forecast = /*[[${forecast}]]*/ 'default';
- 		console.log(forecast);
-
   	/*]]>*/
-      weather.initHourlyUpdateCharts(forecast, 'hourly');
+  	
+      weather.initTempUpdateCharts(forecast, hourlyTempView);
+      weather.initHumidityUpdateCharts(forecast, hourlyHumidityView);
+      
+      toggleTemperatureView = (target) => {
+    	  hourlyTempView = !hourlyTempView;
+		
+      	target.innerText = (hourlyTempView) ? 'Daily View' :'Hourly View';
+      	// Change chart view
+      	weather.initTempUpdateCharts(forecast, hourlyTempView);
+      	
+      };
+      
+      toggleHumidityView = (target) => {
+    	  	hourlyHumidityView = !hourlyHumidityView;
+  		
+        	target.innerText = (hourlyHumidityView) ? 'Daily View' :'Hourly View';
+        	// Change chart view
+        	weather.initHumidityUpdateCharts(forecast, hourlyHumidityView);
+        	
+        };
 
     });
+    
+    
   </script>
 </body>
 

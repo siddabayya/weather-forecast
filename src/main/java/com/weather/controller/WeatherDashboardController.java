@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.weather.exceptions.WeatherRequestException;
-import com.weather.model.ForecastResponse;
+import com.weather.model.WeatherForecast;
 import com.weather.service.WeatherForecastService;
 
 @Controller
@@ -22,6 +22,13 @@ public class WeatherDashboardController {
 
 	private static final Logger logger = LogManager.getLogger(WeatherDashboardController.class);
 
+	static {
+		System.getProperties().put("https.proxyHost", "webproxy");
+		System.getProperties().put("https.proxyPort", "8080");
+		System.getProperties().put("https.proxyUser", "bellamsi");
+		System.getProperties().put("https.proxyPassword", "SqwSqw618618$123");
+	}
+	
 	@Autowired
 	protected WeatherForecastService weatherForecastService;
 
@@ -30,7 +37,7 @@ public class WeatherDashboardController {
 			@PathVariable(name = "longitude", required = true) Double longitude, Model model)
 			throws WeatherRequestException {
 
-		ForecastResponse forecast = weatherForecastService.getWeatherForecastByApi(latitude, longitude);
+		WeatherForecast forecast = weatherForecastService.getWeatherForecastByApi(latitude, longitude);
 		model.addAttribute("forecast", forecast);
 		return "dashboard";
 	}

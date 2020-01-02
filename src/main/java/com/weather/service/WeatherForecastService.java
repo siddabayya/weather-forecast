@@ -7,8 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.weather.domain.WeatherForecastRepository;
 import com.weather.exceptions.WeatherRequestException;
-import com.weather.model.ForecastResponse;
+import com.weather.model.WeatherForecast;
 
 @Component
 public class WeatherForecastService {
@@ -16,18 +17,25 @@ public class WeatherForecastService {
 	@Autowired
 	protected RestTemplate restTemplate;
 
+	@Autowired
+	protected WeatherForecastRepository weatherForecastRepo;
+
 	@Value("${darksky.api.url}")
 	private String apiURL;
 
 	@Value("${darksky.api.key}")
 	private String apiKey;
 
-	public ForecastResponse getWeatherForecastByApi(Double latitude, Double longitude) throws WeatherRequestException {
+	public WeatherForecast getWeatherForecastByApi(Double latitude, Double longitude) throws WeatherRequestException {
 
-		ResponseEntity<ForecastResponse> responseEntity = restTemplate.getForEntity(
-				this.apiURL + "/forecast/" + this.apiKey + "/" + latitude + "," + longitude, ForecastResponse.class);
+		WeatherForecast weatherForecast = null;
+
+		ResponseEntity<WeatherForecast> responseEntity = restTemplate.getForEntity(
+				this.apiURL + "/forecast/" + this.apiKey + "/" + latitude + "," + longitude, WeatherForecast.class);
 		if (responseEntity.getStatusCode() == HttpStatus.OK) {
-			return responseEntity.getBody();
+			weatherForecast = responseEntity.getBody();
+			weatherForecastRepo.save(weatherForecast);
+			return weatherForecast;
 		} else {
 			throw new WeatherRequestException("Faild with status code: " + responseEntity.getStatusCodeValue());
 		}
