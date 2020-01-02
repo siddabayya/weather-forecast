@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.weather.model.WeatherForecast;
 
-// mongodb repository for WeatherForecast for CRUD operations
-@Repository
+@Repository // Mongodb repository for WeatherForecast for CRUD operations
 public interface WeatherForecastRepository extends MongoRepository<WeatherForecast, Long> {
 
 

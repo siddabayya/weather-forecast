@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.weather.domain.GeoLocationRepository;
 import com.weather.domain.WeatherForecastRepository;
 import com.weather.exceptions.WeatherRequestException;
 import com.weather.model.WeatherForecast;
@@ -19,6 +20,9 @@ public class WeatherForecastService {
 
 	@Autowired
 	protected WeatherForecastRepository weatherForecastRepo;
+	
+	@Autowired
+	protected GeoLocationRepository geoLocationRepo;
 
 	@Value("${darksky.api.url}")
 	private String apiURL;

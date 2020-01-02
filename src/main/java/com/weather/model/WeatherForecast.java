@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -57,6 +58,7 @@ public class WeatherForecast implements Serializable {
     private Daily daily;
     private Hourly hourly;
     private Minutely minutely;
+    @Indexed
     private String timezone;
     private Longitude longitude;
     private Latitude latitude;
