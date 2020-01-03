@@ -23,10 +23,12 @@ public class WeatherDashboardController {
 	private static final Logger logger = LogManager.getLogger(WeatherDashboardController.class);
 
 	static {
-		System.getProperties().put("https.proxyHost", "webproxy");
-		System.getProperties().put("https.proxyPort", "8080");
-		System.getProperties().put("https.proxyUser", "bellamsi");
-		System.getProperties().put("https.proxyPassword", "SqwSqw618618$123");
+		/*
+		 * System.getProperties().put("https.proxyHost", "");
+		 * System.getProperties().put("https.proxyPort", "");
+		 * System.getProperties().put("https.proxyUser", "");
+		 * System.getProperties().put("https.proxyPassword", "");
+		 */
 	}
 	
 	@Autowired
