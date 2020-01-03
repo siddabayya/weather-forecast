@@ -14,7 +14,7 @@ Technologies used
 
 Using IDE (Eclipse)
 
-git clone https://github.com/spring-guides/gs-spring-boot.git
+git clone https://github.com/siddabayya/weather-forecast.git
 
 1.	Exctract and Import src as maven project in Eclipse IDE. 
 
