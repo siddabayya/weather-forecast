@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.servingwebcontent;
+package com.weather;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,31 +22,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
-//@WebMvcTest(controllers = GreetingController.class)
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.weather.config.ApplicationConfig;
+import com.weather.controller.WeatherDashboardController;
+import com.weather.model.WeatherForecast;
+import com.weather.service.WeatherForecastService;
+
+@SpringBootTest
+@Import(ApplicationConfig.class)
 public class ServingnWebContentApplicationTest {
 
+
+	@MockBean
+	protected WeatherForecastService weatherForecastService;
+	
 	@Autowired
-	private MockMvc mockMvc;
+	WeatherDashboardController weatherDashboardController;
+
+	@MockBean
+	WeatherForecast weatherForecast;
 
 	@Test
-	public void homePage() throws Exception {
-		// N.B. jsoup can be useful for asserting HTML content
-		mockMvc.perform(get("/index.html"))
-				.andExpect(content().string(containsString("Get your greeting")));
-	}
-
-	@Test
-	public void greeting() throws Exception {
-		mockMvc.perform(get("/greeting"))
-				.andExpect(content().string(containsString("Hello, World!")));
-	}
-
-	@Test
-	public void greetingWithUser() throws Exception {
-		mockMvc.perform(get("/greeting").param("name", "Greg"))
-				.andExpect(content().string(containsString("Hello, Greg!")));
+	public void weatherControllerIsCreated() throws Exception {
+		assertThat(weatherDashboardController).isNotNull();
 	}
 
 }
